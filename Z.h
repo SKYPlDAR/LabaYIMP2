@@ -18,6 +18,15 @@ public:
     friend istream& operator>>(istream& is, const jets& Jets);
 };
 //классы
-
+class routes{
+public:
+    string name;
+    int startX;
+    int startY;
+    int endX;
+    int endY;
+    friend ostream& operator<<(ostream& os, const routes& Routes);
+    friend istream& operator>>(istream& is, const routes& Routes);
+};
 //войды я пропишу
 }
