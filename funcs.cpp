@@ -111,3 +111,82 @@ void nm::delJET(){
     fwrite.close();
 
 }
+
+ostream& operator<<(ostream& os, const nm::routes& Routes){
+    os << Routes.name << " " << Routes.startX << Routes.startY << " " << Routes.endX << Routes.endY;
+    return os;
+}
+
+istream& operator>>(istream& is, nm::routes& Routes){
+    is >> Routes.name >> Routes.startX >> Routes.startY >> Routes.endX >> Routes.endY;
+    return is;
+}
+
+void nm::searchROU(){
+    cout << "Enter name of route" << endl;
+    string name;
+    cin >> name;
+    routes editable;
+    ifstream f;
+    f.open("routes.txt");
+    if(!f.is_open()) fatal();
+    while(f >> editable){
+        if(editable.name == name){
+            cout << editable.name << " " << editable.startX << " " << editable.startY << " " << editable.endX << " " << editable.endY << endl;
+        }
+    }
+    f.close();
+}
+
+void nm::addROU(){
+    cout << "Введите название маршрута" << endl;
+    routes editable;
+    cin >> editable.name;
+    cout << "Введите координату начала по х" << endl;
+    if (!(cin >> editable.startX)){
+        cout<<"Некорректный ввод"<<endl;
+        return;
+    }
+    cout << "Введите координату начала по у" << endl;
+    if (!(cin >> editable.startY)){
+        cout<<"Некорректный ввод"<<endl;
+        return;
+    }
+    cout << "Введите координату конца по х" << endl;
+    if (!(cin >> editable.endX)){
+        cout<<"Некорректный ввод"<<endl;
+        return;
+    }
+    cout << "Введите координату конца по у" << endl;
+    if (!(cin >> editable.endY)){
+        cout<<"Некорректный ввод"<<endl;
+        return;
+    }
+    fstream f;
+    f.open("routes.txt", ios::app | ios::ate);
+    if(!f.is_open()) fatal();
+    f << editable.name << " " << editable.startX << " " << editable.startY << " " << editable.endX << " " << editable.endY << endl;
+    f.close();
+}
+
+void nm::delROU(){
+    int i = arr_s("routes.txt");
+    routes arr[i];
+    array(i,"routes.txt", arr);
+
+    int index;
+    cout << "Введите индекс маршрута" << endl;
+    if (!(cin >> index)||(index<0)||(index>i)){
+        cout<<"Некорректный ввод"<<endl;
+        return;
+    }
+    ofstream fwrite;
+    fwrite.open("routes.txt");
+    if(!fwrite.is_open()) fatal();
+    for(int n = 0; n < i; n++){
+        if((n!=index)){
+            fwrite << arr[n].name << " " << arr[n].startX << " " << arr[n].startY << " " << arr[n].endX << " " << arr[n].endY << endl;
+        }
+    }
+    fwrite.close();
+}
